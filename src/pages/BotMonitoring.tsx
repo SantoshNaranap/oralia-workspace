@@ -1,10 +1,9 @@
-
 import React, { useState } from 'react'
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/AppSidebar'
 import { BotMonitoringHeader } from '@/components/BotMonitoringHeader'
 import { BotPerformanceGrid } from '@/components/BotPerformanceGrid'
-import { BotDetailsPanel } from '@/components/BotDetailsPanel'
+import { BotDetailsModal } from '@/components/BotDetailsModal'
 
 export interface Bot {
   id: string
@@ -192,22 +191,19 @@ export default function BotMonitoring() {
               onStatusFilterChange={setStatusFilter}
             />
             
-            <div className="flex-1 flex">
-              <div className="flex-1 p-6">
-                <BotPerformanceGrid
-                  bots={filteredBots}
-                  onBotSelect={setSelectedBot}
-                />
-              </div>
-              
-              {selectedBot && (
-                <BotDetailsPanel
-                  bot={selectedBot}
-                  onClose={() => setSelectedBot(null)}
-                />
-              )}
+            <div className="flex-1 p-6">
+              <BotPerformanceGrid
+                bots={filteredBots}
+                onBotSelect={setSelectedBot}
+              />
             </div>
           </div>
+          
+          <BotDetailsModal
+            bot={selectedBot}
+            open={!!selectedBot}
+            onOpenChange={(open) => !open && setSelectedBot(null)}
+          />
         </SidebarInset>
       </div>
     </SidebarProvider>
