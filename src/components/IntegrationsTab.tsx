@@ -1,13 +1,22 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription, DialogFooter } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { CheckCircle, XCircle, Clock, Settings } from "lucide-react"
+import { useState } from "react"
 
 export function IntegrationsTab() {
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false)
+  const [newIntegration, setNewIntegration] = useState({
+    name: "",
+    type: "",
+    apiKey: "",
+    webhookUrl: ""
+  })
+
   const integrations = [
     { name: "Stripe", status: "connected", lastSync: "2 minutes ago", logo: "💳" },
     { name: "Slack", status: "connected", lastSync: "1 hour ago", logo: "💬" },
@@ -41,11 +50,92 @@ export function IntegrationsTab() {
     return <Badge variant={variants[status] as any}>{status}</Badge>
   }
 
+  const handleAddIntegration = () => {
+    console.log("Adding new integration:", newIntegration)
+    setIsAddModalOpen(false)
+    setNewIntegration({ name: "", type: "", apiKey: "", webhookUrl: "" })
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h3 className="text-xl font-semibold">Integration Management</h3>
-        <Button>Add Integration</Button>
+        <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
+          <DialogTrigger asChild>
+            <Button>Add Integration</Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[500px]">
+            <DialogHeader>
+              <DialogTitle>Add New Integration</DialogTitle>
+              <DialogDescription>
+                Configure a new integration with your preferred service. All fields are required.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="integration-name" className="text-right">
+                  Name
+                </Label>
+                <Input
+                  id="integration-name"
+                  value={newIntegration.name}
+                  onChange={(e) => setNewIntegration({ ...newIntegration, name: e.target.value })}
+                  className="col-span-3"
+                  placeholder="e.g., My Custom API"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="integration-type" className="text-right">
+                  Type
+                </Label>
+                <Select value={newIntegration.type} onValueChange={(value) => setNewIntegration({ ...newIntegration, type: value })}>
+                  <SelectTrigger className="col-span-3">
+                    <SelectValue placeholder="Select integration type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="payment">Payment Gateway</SelectItem>
+                    <SelectItem value="communication">Communication</SelectItem>
+                    <SelectItem value="crm">CRM</SelectItem>
+                    <SelectItem value="analytics">Analytics</SelectItem>
+                    <SelectItem value="cloud">Cloud Service</SelectItem>
+                    <SelectItem value="other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="integration-api-key" className="text-right">
+                  API Key
+                </Label>
+                <Input
+                  id="integration-api-key"
+                  type="password"
+                  value={newIntegration.apiKey}
+                  onChange={(e) => setNewIntegration({ ...newIntegration, apiKey: e.target.value })}
+                  className="col-span-3"
+                  placeholder="Enter API key"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="integration-webhook" className="text-right">
+                  Webhook URL
+                </Label>
+                <Input
+                  id="integration-webhook"
+                  value={newIntegration.webhookUrl}
+                  onChange={(e) => setNewIntegration({ ...newIntegration, webhookUrl: e.target.value })}
+                  className="col-span-3"
+                  placeholder="https://api.example.com/webhook"
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setIsAddModalOpen(false)}>
+                Cancel
+              </Button>
+              <Button onClick={handleAddIntegration}>Add Integration</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
