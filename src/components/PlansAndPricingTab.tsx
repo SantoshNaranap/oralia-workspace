@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -6,23 +5,120 @@ import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
 import { Slider } from "@/components/ui/slider"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
 import { Edit, Trash2, Plus } from "lucide-react"
+import { useState } from "react"
 
 export function PlansAndPricingTab() {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [newPlan, setNewPlan] = useState({
+    name: "",
+    price: "",
+    users: "",
+    storage: "",
+    support: ""
+  })
+
   const plans = [
     { name: "Starter", price: "$29", users: "Up to 5", storage: "10GB", support: "Email" },
     { name: "Professional", price: "$99", users: "Up to 25", storage: "100GB", support: "Priority" },
     { name: "Enterprise", price: "$299", users: "Unlimited", storage: "1TB", support: "24/7 Phone" }
   ]
 
+  const handleCreatePlan = () => {
+    console.log("Creating new plan:", newPlan)
+    setIsModalOpen(false)
+    setNewPlan({ name: "", price: "", users: "", storage: "", support: "" })
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h3 className="text-xl font-semibold">Plan Management</h3>
-        <Button>
-          <Plus className="w-4 h-4 mr-2" />
-          Add New Plan
-        </Button>
+        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+          <DialogTrigger asChild>
+            <Button>
+              <Plus className="w-4 h-4 mr-2" />
+              Add New Plan
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[500px]">
+            <DialogHeader>
+              <DialogTitle>Create New Plan</DialogTitle>
+              <DialogDescription>
+                Configure the details for your new pricing plan. All fields are required.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="plan-name" className="text-right">
+                  Plan Name
+                </Label>
+                <Input
+                  id="plan-name"
+                  value={newPlan.name}
+                  onChange={(e) => setNewPlan({ ...newPlan, name: e.target.value })}
+                  className="col-span-3"
+                  placeholder="e.g., Premium"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="plan-price" className="text-right">
+                  Price
+                </Label>
+                <Input
+                  id="plan-price"
+                  value={newPlan.price}
+                  onChange={(e) => setNewPlan({ ...newPlan, price: e.target.value })}
+                  className="col-span-3"
+                  placeholder="$149"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="plan-users" className="text-right">
+                  Users
+                </Label>
+                <Input
+                  id="plan-users"
+                  value={newPlan.users}
+                  onChange={(e) => setNewPlan({ ...newPlan, users: e.target.value })}
+                  className="col-span-3"
+                  placeholder="Up to 50"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="plan-storage" className="text-right">
+                  Storage
+                </Label>
+                <Input
+                  id="plan-storage"
+                  value={newPlan.storage}
+                  onChange={(e) => setNewPlan({ ...newPlan, storage: e.target.value })}
+                  className="col-span-3"
+                  placeholder="500GB"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="plan-support" className="text-right">
+                  Support
+                </Label>
+                <Input
+                  id="plan-support"
+                  value={newPlan.support}
+                  onChange={(e) => setNewPlan({ ...newPlan, support: e.target.value })}
+                  className="col-span-3"
+                  placeholder="Priority Email"
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setIsModalOpen(false)}>
+                Cancel
+              </Button>
+              <Button onClick={handleCreatePlan}>Create Plan</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
 
       <Card>
