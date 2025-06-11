@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/AppSidebar'
 import { TenantHeader } from '@/components/TenantHeader'
-import { TenantFilters } from '@/components/TenantFilters'
 import { TenantTable } from '@/components/TenantTable'
 import { TenantQuickView } from '@/components/TenantQuickView'
 
@@ -132,11 +131,6 @@ export default function TenantManagement() {
         <AppSidebar />
         <SidebarInset className="flex-1">
           <div className="flex h-screen bg-background">
-            <TenantFilters 
-              filters={filters}
-              onFiltersChange={setFilters}
-            />
-            
             <div className="flex-1 flex flex-col overflow-hidden">
               <TenantHeader
                 tenantCount={filteredTenants.length}
@@ -144,6 +138,8 @@ export default function TenantManagement() {
                 onSearchChange={setSearchQuery}
                 viewMode={viewMode}
                 onViewModeChange={setViewMode}
+                filters={filters}
+                onFiltersChange={setFilters}
               />
               
               <div className="flex-1 overflow-auto p-6">

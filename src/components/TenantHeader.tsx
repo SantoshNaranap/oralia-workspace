@@ -8,6 +8,8 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
+  DropdownMenuCheckboxItem,
 } from '@/components/ui/dropdown-menu'
 import { Plus, Filter, Grid2x2, List, ChevronDown } from 'lucide-react'
 
@@ -17,6 +19,14 @@ interface TenantHeaderProps {
   onSearchChange: (query: string) => void
   viewMode: 'grid' | 'list'
   onViewModeChange: (mode: 'grid' | 'list') => void
+  filters: {
+    plans: string[]
+    statuses: string[]
+    regions: string[]
+    dateRange: { from: Date; to: Date } | null
+    usageRange: [number, number]
+  }
+  onFiltersChange: (filters: any) => void
 }
 
 export function TenantHeader({
@@ -24,8 +34,50 @@ export function TenantHeader({
   searchQuery,
   onSearchChange,
   viewMode,
-  onViewModeChange
+  onViewModeChange,
+  filters,
+  onFiltersChange
 }: TenantHeaderProps) {
+  const plans = ['Free', 'Starter', 'Pro', 'Enterprise']
+  const statuses = ['Active', 'Suspended', 'Trial', 'Churned']
+  const regions = ['US-East', 'US-West', 'EU-Central', 'APAC']
+
+  const handlePlanChange = (plan: string, checked: boolean) => {
+    const newPlans = checked
+      ? [...filters.plans, plan]
+      : filters.plans.filter(p => p !== plan)
+    
+    onFiltersChange({ ...filters, plans: newPlans })
+  }
+
+  const handleStatusChange = (status: string, checked: boolean) => {
+    const newStatuses = checked
+      ? [...filters.statuses, status]
+      : filters.statuses.filter(s => s !== status)
+    
+    onFiltersChange({ ...filters, statuses: newStatuses })
+  }
+
+  const handleRegionChange = (region: string, checked: boolean) => {
+    const newRegions = checked
+      ? [...filters.regions, region]
+      : filters.regions.filter(r => r !== region)
+    
+    onFiltersChange({ ...filters, regions: newRegions })
+  }
+
+  const clearAllFilters = () => {
+    onFiltersChange({
+      plans: [],
+      statuses: [],
+      regions: [],
+      dateRange: null,
+      usageRange: [0, 100]
+    })
+  }
+
+  const activeFiltersCount = filters.plans.length + filters.statuses.length + filters.regions.length
+
   return (
     <div className="border-b border-border bg-card p-6">
       <div className="flex items-center justify-between mb-4">
@@ -56,15 +108,76 @@ export function TenantHeader({
         
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline">
+            <Button variant="outline" className="relative">
               <Filter className="w-4 h-4 mr-2" />
               Filters
+              {activeFiltersCount > 0 && (
+                <Badge variant="destructive" className="ml-2 h-5 w-5 p-0 text-xs flex items-center justify-center">
+                  {activeFiltersCount}
+                </Badge>
+              )}
               <ChevronDown className="w-4 h-4 ml-2" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem>Export as CSV</DropdownMenuItem>
-            <DropdownMenuItem>Export as PDF</DropdownMenuItem>
+          <DropdownMenuContent className="w-64" align="start">
+            <div className="p-2">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium">Filters</span>
+                {activeFiltersCount > 0 && (
+                  <Button variant="ghost" size="sm" onClick={clearAllFilters} className="h-6 px-2 text-xs">
+                    Clear All
+                  </Button>
+                )}
+              </div>
+              
+              <DropdownMenuSeparator />
+              
+              <div className="py-2">
+                <div className="text-xs font-medium text-muted-foreground mb-2">PLAN TYPE</div>
+                {plans.map(plan => (
+                  <DropdownMenuCheckboxItem
+                    key={plan}
+                    checked={filters.plans.includes(plan)}
+                    onCheckedChange={(checked) => handlePlanChange(plan, checked as boolean)}
+                    className="text-sm"
+                  >
+                    {plan}
+                  </DropdownMenuCheckboxItem>
+                ))}
+              </div>
+              
+              <DropdownMenuSeparator />
+              
+              <div className="py-2">
+                <div className="text-xs font-medium text-muted-foreground mb-2">STATUS</div>
+                {statuses.map(status => (
+                  <DropdownMenuCheckboxItem
+                    key={status}
+                    checked={filters.statuses.includes(status)}
+                    onCheckedChange={(checked) => handleStatusChange(status, checked as boolean)}
+                    className="text-sm"
+                  >
+                    {status}
+                  </DropdownMenuCheckboxItem>
+                ))}
+              </div>
+              
+              <DropdownMenuSeparator />
+              
+              <div className="py-2">
+                <div className="text-xs font-medium text-muted-foreground mb-2">REGION</div>
+                {regions.map(region => (
+                  <DropdownMenuCheckboxItem
+                    key={region}
+                    checked={filters.regions.includes(region)}
+                    onCheckedChange={(checked) => handleRegionChange(region, checked as boolean)}
+                    className="text-sm"
+                  >
+                    {region}
+                  </DropdownMenuCheckboxItem>
+                ))}
+              </div>
+            </div>
           </DropdownMenuContent>
         </DropdownMenu>
         
@@ -76,6 +189,9 @@ export function TenantHeader({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
+            <DropdownMenuItem>Export as CSV</DropdownMenuItem>
+            <DropdownMenuItem>Export as PDF</DropdownMenuItem>
+            <DropdownMenuSeparator />
             <DropdownMenuItem>Suspend Selected</DropdownMenuItem>
             <DropdownMenuItem>Activate Selected</DropdownMenuItem>
             <DropdownMenuItem>Delete Selected</DropdownMenuItem>
