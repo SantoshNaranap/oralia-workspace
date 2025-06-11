@@ -18,15 +18,15 @@ export function RealTimeMetrics({ metrics }: RealTimeMetricsProps) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-      <Card className="gradient-card border-border/50">
+      <Card className="bg-card border-border hover:shadow-lg transition-all duration-300">
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm flex items-center gap-2">
+          <CardTitle className="text-sm flex items-center gap-2 text-foreground">
             <MessageCircle className="w-4 h-4 text-blue-500" />
             Messages/Second
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="text-3xl font-bold mb-2">
+        <CardContent className="pt-0">
+          <div className="text-3xl font-bold mb-2 text-foreground">
             {metrics.messagesPerSecond.toFixed(1)}
           </div>
           <div className="text-xs text-muted-foreground">
@@ -35,15 +35,15 @@ export function RealTimeMetrics({ metrics }: RealTimeMetricsProps) {
         </CardContent>
       </Card>
 
-      <Card className="gradient-card border-border/50">
+      <Card className="bg-card border-border hover:shadow-lg transition-all duration-300">
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm flex items-center gap-2">
+          <CardTitle className="text-sm flex items-center gap-2 text-foreground">
             <Users className="w-4 h-4 text-green-500" />
             Active Conversations
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="text-3xl font-bold mb-2">
+        <CardContent className="pt-0">
+          <div className="text-3xl font-bold mb-2 text-foreground">
             {metrics.activeConversations.toLocaleString()}
           </div>
           <div className="text-xs text-muted-foreground">
@@ -52,15 +52,15 @@ export function RealTimeMetrics({ metrics }: RealTimeMetricsProps) {
         </CardContent>
       </Card>
 
-      <Card className="gradient-card border-border/50">
+      <Card className="bg-card border-border hover:shadow-lg transition-all duration-300">
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm flex items-center gap-2">
+          <CardTitle className="text-sm flex items-center gap-2 text-foreground">
             <Clock className="w-4 h-4 text-purple-500" />
             Avg Response Time
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="text-3xl font-bold mb-2">
+        <CardContent className="pt-0">
+          <div className="text-3xl font-bold mb-2 text-foreground">
             {metrics.avgResponseTime.toFixed(2)}s
           </div>
           <Progress value={Math.min(100, (2 - metrics.avgResponseTime) * 50)} className="h-2" />
@@ -70,14 +70,14 @@ export function RealTimeMetrics({ metrics }: RealTimeMetricsProps) {
         </CardContent>
       </Card>
 
-      <Card className="gradient-card border-border/50">
+      <Card className="bg-card border-border hover:shadow-lg transition-all duration-300">
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm flex items-center gap-2">
+          <CardTitle className="text-sm flex items-center gap-2 text-foreground">
             <AlertTriangle className="w-4 h-4 text-red-500" />
             Error Rate
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-0">
           <div className={`text-3xl font-bold mb-2 ${getErrorRateColor(metrics.errorRate)}`}>
             {metrics.errorRate.toFixed(1)}%
           </div>
