@@ -1,4 +1,3 @@
-
 import { BarChart, LayoutDashboard, PieChart, Settings, Calendar, Users, UserCog } from "lucide-react"
 import { NavLink, useLocation } from "react-router-dom"
 
@@ -16,7 +15,6 @@ import {
 } from "@/components/ui/sidebar"
 
 const navigationItems = [
-  { title: "Dashboard", url: "/", icon: LayoutDashboard },
   { title: "Analytics", url: "/analytics", icon: BarChart },
   { title: "Reports", url: "/reports", icon: PieChart },
   { title: "Tenant Management", url: "/tenant-management", icon: Users },
