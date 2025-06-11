@@ -1,5 +1,7 @@
 
 import React, { useState } from 'react'
+import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar'
+import { AppSidebar } from '@/components/AppSidebar'
 import { TenantHeader } from '@/components/TenantHeader'
 import { TenantFilters } from '@/components/TenantFilters'
 import { TenantTable } from '@/components/TenantTable'
@@ -125,35 +127,42 @@ export default function TenantManagement() {
   })
 
   return (
-    <div className="flex h-screen bg-background">
-      <TenantFilters 
-        filters={filters}
-        onFiltersChange={setFilters}
-      />
-      
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <TenantHeader
-          tenantCount={filteredTenants.length}
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          viewMode={viewMode}
-          onViewModeChange={setViewMode}
-        />
-        
-        <div className="flex-1 overflow-auto p-6">
-          <TenantTable
-            tenants={filteredTenants}
-            onTenantClick={setSelectedTenant}
-          />
-        </div>
-      </div>
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full">
+        <AppSidebar />
+        <SidebarInset className="flex-1">
+          <div className="flex h-screen bg-background">
+            <TenantFilters 
+              filters={filters}
+              onFiltersChange={setFilters}
+            />
+            
+            <div className="flex-1 flex flex-col overflow-hidden">
+              <TenantHeader
+                tenantCount={filteredTenants.length}
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+                viewMode={viewMode}
+                onViewModeChange={setViewMode}
+              />
+              
+              <div className="flex-1 overflow-auto p-6">
+                <TenantTable
+                  tenants={filteredTenants}
+                  onTenantClick={setSelectedTenant}
+                />
+              </div>
+            </div>
 
-      {selectedTenant && (
-        <TenantQuickView
-          tenant={selectedTenant}
-          onClose={() => setSelectedTenant(null)}
-        />
-      )}
-    </div>
+            {selectedTenant && (
+              <TenantQuickView
+                tenant={selectedTenant}
+                onClose={() => setSelectedTenant(null)}
+              />
+            )}
+          </div>
+        </SidebarInset>
+      </div>
+    </SidebarProvider>
   )
 }
