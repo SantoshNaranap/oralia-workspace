@@ -11,7 +11,7 @@ export interface User {
   id: string
   name: string
   email: string
-  category: 'workspace' | 'tenant' | 'enduser'
+  category: 'workspace' | 'tenant'
   role: string
   status: 'Active' | 'Suspended' | 'Pending' | 'Inactive'
   tenantId?: string
@@ -60,30 +60,13 @@ const mockUsers: User[] = [
     loginCount: 156,
     ipAddress: '203.0.113.45',
     location: 'London, UK'
-  },
-  {
-    id: '3',
-    name: 'Mike User',
-    email: 'mike@customer.com',
-    category: 'enduser',
-    role: 'End User',
-    status: 'Active',
-    tenantId: '1',
-    tenantName: 'Acme Corp',
-    lastLogin: '2024-06-11T08:45:00Z',
-    createdAt: '2024-03-10T00:00:00Z',
-    permissions: ['chat'],
-    mfaEnabled: false,
-    lastActivity: '2024-06-11T08:50:00Z',
-    loginCount: 23,
-    location: 'San Francisco, US'
   }
 ]
 
 export default function UserManagement() {
   const [users, setUsers] = useState<User[]>(mockUsers)
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
-  const [activeCategory, setActiveCategory] = useState<'all' | 'workspace' | 'tenant' | 'enduser'>('all')
+  const [activeCategory, setActiveCategory] = useState<'all' | 'workspace' | 'tenant'>('all')
   const [searchQuery, setSearchQuery] = useState('')
   const [filters, setFilters] = useState({
     roles: [] as string[],

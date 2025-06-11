@@ -5,8 +5,8 @@ import { Badge } from '@/components/ui/badge'
 import { User } from '@/pages/UserManagement'
 
 interface UserCategoryTabsProps {
-  activeCategory: 'all' | 'workspace' | 'tenant' | 'enduser'
-  onCategoryChange: (category: 'all' | 'workspace' | 'tenant' | 'enduser') => void
+  activeCategory: 'all' | 'workspace' | 'tenant'
+  onCategoryChange: (category: 'all' | 'workspace' | 'tenant') => void
   users: User[]
 }
 
@@ -19,7 +19,7 @@ export function UserCategoryTabs({ activeCategory, onCategoryChange, users }: Us
   return (
     <div className="border-b border-border bg-card px-6 py-3">
       <Tabs value={activeCategory} onValueChange={(value) => onCategoryChange(value as any)}>
-        <TabsList className="grid w-full grid-cols-4 max-w-2xl">
+        <TabsList className="grid w-full grid-cols-3 max-w-xl">
           <TabsTrigger value="all" className="flex items-center gap-2">
             All Users
             <Badge variant="secondary" className="text-xs">
@@ -36,12 +36,6 @@ export function UserCategoryTabs({ activeCategory, onCategoryChange, users }: Us
             Tenant Users
             <Badge variant="secondary" className="text-xs">
               {getCategoryCount('tenant')}
-            </Badge>
-          </TabsTrigger>
-          <TabsTrigger value="enduser" className="flex items-center gap-2">
-            End Users
-            <Badge variant="secondary" className="text-xs">
-              {getCategoryCount('enduser')}
             </Badge>
           </TabsTrigger>
         </TabsList>

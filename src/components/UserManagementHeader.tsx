@@ -34,7 +34,7 @@ export function UserManagementHeader({
   filters,
   onFiltersChange
 }: UserManagementHeaderProps) {
-  const roles = ['Super Admin', 'Support', 'Finance', 'Operations', 'Owner', 'Admin', 'Member', 'Bot Operator', 'End User']
+  const roles = ['Super Admin', 'Support', 'Finance', 'Operations', 'Owner', 'Admin', 'Member', 'Bot Operator']
   const statuses = ['Active', 'Suspended', 'Pending', 'Inactive']
   const tenants = ['Acme Corp', 'TechStart Inc', 'Global Dynamics', 'Digital Solutions']
 
