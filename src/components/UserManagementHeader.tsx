@@ -1,8 +1,32 @@
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,6 +36,7 @@ import {
   DropdownMenuCheckboxItem,
 } from '@/components/ui/dropdown-menu'
 import { Plus, Filter, Download, ChevronDown, UserPlus, Shield, Key } from 'lucide-react'
+import { useForm } from 'react-hook-form'
 
 interface UserManagementHeaderProps {
   userCount: number
@@ -27,6 +52,15 @@ interface UserManagementHeaderProps {
   onFiltersChange: (filters: any) => void
 }
 
+interface AddUserForm {
+  name: string
+  email: string
+  category: 'workspace' | 'tenant'
+  role: string
+  tenantId?: string
+  sendInviteEmail: boolean
+}
+
 export function UserManagementHeader({
   userCount,
   searchQuery,
@@ -34,9 +68,23 @@ export function UserManagementHeader({
   filters,
   onFiltersChange
 }: UserManagementHeaderProps) {
+  const [isAddUserOpen, setIsAddUserOpen] = useState(false)
+  const form = useForm<AddUserForm>({
+    defaultValues: {
+      name: '',
+      email: '',
+      category: 'workspace',
+      role: 'Member',
+      sendInviteEmail: true
+    }
+  })
+
   const roles = ['Super Admin', 'Support', 'Finance', 'Operations', 'Owner', 'Admin', 'Member', 'Bot Operator']
   const statuses = ['Active', 'Suspended', 'Pending', 'Inactive']
   const tenants = ['Acme Corp', 'TechStart Inc', 'Global Dynamics', 'Digital Solutions']
+
+  const workspaceRoles = ['Super Admin', 'Support', 'Finance', 'Operations']
+  const tenantRoles = ['Owner', 'Admin', 'Member', 'Bot Operator']
 
   const handleRoleChange = (role: string, checked: boolean) => {
     const newRoles = checked
@@ -72,6 +120,14 @@ export function UserManagementHeader({
     })
   }
 
+  const onSubmitAddUser = (data: AddUserForm) => {
+    console.log('Adding user:', data)
+    setIsAddUserOpen(false)
+    form.reset()
+  }
+
+  const selectedCategory = form.watch('category')
+
   const activeFiltersCount = filters.roles.length + filters.statuses.length + filters.tenants.length + 
                             (filters.mfaEnabled !== null ? 1 : 0)
 
@@ -98,10 +154,132 @@ export function UserManagementHeader({
             <Shield className="w-4 h-4 mr-2" />
             Security
           </Button>
-          <Button className="bg-primary hover:bg-primary/90">
-            <UserPlus className="w-4 h-4 mr-2" />
-            Add User
-          </Button>
+          
+          <Dialog open={isAddUserOpen} onOpenChange={setIsAddUserOpen}>
+            <DialogTrigger asChild>
+              <Button className="bg-primary hover:bg-primary/90">
+                <UserPlus className="w-4 h-4 mr-2" />
+                Add User
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[500px]">
+              <DialogHeader>
+                <DialogTitle>Add New User</DialogTitle>
+                <DialogDescription>
+                  Create a new user account. An invitation email will be sent if enabled.
+                </DialogDescription>
+              </DialogHeader>
+              
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmitAddUser)} className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Full Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="John Doe" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email Address</FormLabel>
+                        <FormControl>
+                          <Input type="email" placeholder="john@example.com" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="category"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>User Type</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select user type" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="workspace">Workspace User</SelectItem>
+                            <SelectItem value="tenant">Tenant User</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="role"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Role</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select role" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {(selectedCategory === 'workspace' ? workspaceRoles : tenantRoles).map(role => (
+                              <SelectItem key={role} value={role}>{role}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  {selectedCategory === 'tenant' && (
+                    <FormField
+                      control={form.control}
+                      name="tenantId"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Tenant</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select tenant" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {tenants.map(tenant => (
+                                <SelectItem key={tenant} value={tenant.toLowerCase().replace(/\s+/g, '-')}>{tenant}</SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
+                  
+                  <DialogFooter>
+                    <Button type="button" variant="outline" onClick={() => setIsAddUserOpen(false)}>
+                      Cancel
+                    </Button>
+                    <Button type="submit">Create User</Button>
+                  </DialogFooter>
+                </form>
+              </Form>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
       
