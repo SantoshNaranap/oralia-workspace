@@ -9,6 +9,7 @@ import Reports from "./pages/Reports";
 import CalendarPage from "./pages/CalendarPage";
 import SettingsPage from "./pages/SettingsPage";
 import TenantManagement from "./pages/TenantManagement";
+import UserManagement from "./pages/UserManagement";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/analytics" element={<Index />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/tenant-management" element={<TenantManagement />} />
+          <Route path="/user-management" element={<UserManagement />} />
           <Route path="/calendar" element={<CalendarPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="*" element={<NotFound />} />
