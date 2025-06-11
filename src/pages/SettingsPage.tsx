@@ -2,9 +2,12 @@
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
 import { DashboardHeader } from "@/components/DashboardHeader"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Switch } from "@/components/ui/switch"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { GlobalSettingsTab } from "@/components/GlobalSettingsTab"
+import { PlansAndPricingTab } from "@/components/PlansAndPricingTab"
+import { IntegrationsTab } from "@/components/IntegrationsTab"
+import { SecurityTab } from "@/components/SecurityTab"
+import { ComplianceTab } from "@/components/ComplianceTab"
 
 const SettingsPage = () => {
   return (
@@ -15,50 +18,41 @@ const SettingsPage = () => {
         <div className="flex-1 flex flex-col">
           <DashboardHeader />
           
-          <main className="flex-1 p-6 animate-fade-in">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card className="gradient-card border-border/50">
-                <CardHeader>
-                  <CardTitle>General Settings</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="flex items-center justify-between">
-                    <span>Email notifications</span>
-                    <Switch />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span>Push notifications</span>
-                    <Switch />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span>Auto-refresh data</span>
-                    <Switch defaultChecked />
-                  </div>
-                  <Button className="w-full gradient-purple">Save Settings</Button>
-                </CardContent>
-              </Card>
-              
-              <Card className="gradient-card border-border/50">
-                <CardHeader>
-                  <CardTitle>Account Preferences</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="flex items-center justify-between">
-                    <span>Dark mode</span>
-                    <Switch defaultChecked />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span>Analytics tracking</span>
-                    <Switch defaultChecked />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span>Performance monitoring</span>
-                    <Switch defaultChecked />
-                  </div>
-                  <Button variant="outline" className="w-full border-border/50">Reset Preferences</Button>
-                </CardContent>
-              </Card>
+          <main className="flex-1 p-6">
+            <div className="mb-6">
+              <h1 className="text-3xl font-bold">System Configuration</h1>
+              <p className="text-muted-foreground">Manage your platform settings and configurations</p>
             </div>
+
+            <Tabs defaultValue="global" className="w-full">
+              <TabsList className="grid w-full grid-cols-5">
+                <TabsTrigger value="global">Global Settings</TabsTrigger>
+                <TabsTrigger value="plans">Plans & Pricing</TabsTrigger>
+                <TabsTrigger value="integrations">Integrations</TabsTrigger>
+                <TabsTrigger value="security">Security</TabsTrigger>
+                <TabsTrigger value="compliance">Compliance</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="global" className="mt-6">
+                <GlobalSettingsTab />
+              </TabsContent>
+
+              <TabsContent value="plans" className="mt-6">
+                <PlansAndPricingTab />
+              </TabsContent>
+
+              <TabsContent value="integrations" className="mt-6">
+                <IntegrationsTab />
+              </TabsContent>
+
+              <TabsContent value="security" className="mt-6">
+                <SecurityTab />
+              </TabsContent>
+
+              <TabsContent value="compliance" className="mt-6">
+                <ComplianceTab />
+              </TabsContent>
+            </Tabs>
           </main>
         </div>
       </div>
