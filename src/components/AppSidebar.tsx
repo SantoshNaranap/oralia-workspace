@@ -1,4 +1,3 @@
-
 import { BarChart, LayoutDashboard, Settings, Users, UserCog, Bot, Activity, DollarSign } from "lucide-react"
 import { NavLink, useLocation } from "react-router-dom"
 
@@ -17,11 +16,11 @@ import {
 
 const navigationItems = [
   { title: "Analytics", url: "/analytics", icon: BarChart },
+  { title: "Tenant Management", url: "/tenant-management", icon: Users },
+  { title: "User Management", url: "/user-management", icon: UserCog },
   { title: "Bot Monitoring", url: "/bot-monitoring", icon: Bot },
   { title: "Live Monitoring", url: "/live-monitoring", icon: Activity },
   { title: "Finances", url: "/finances", icon: DollarSign },
-  { title: "Tenant Management", url: "/tenant-management", icon: Users },
-  { title: "User Management", url: "/user-management", icon: UserCog },
   { title: "Settings", url: "/settings", icon: Settings },
 ]
 
