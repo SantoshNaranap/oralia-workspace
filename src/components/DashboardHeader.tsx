@@ -3,6 +3,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Bell, Search, User, Download, RefreshCw } from "lucide-react"
+import { ThemeToggle } from "@/components/ThemeToggle"
 
 export function DashboardHeader() {
   return (
@@ -38,6 +39,8 @@ export function DashboardHeader() {
             <Download className="h-3 w-3" />
             Export Report
           </Button>
+          
+          <ThemeToggle />
           
           <div className="relative">
             <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
