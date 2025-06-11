@@ -11,6 +11,7 @@ import SettingsPage from "./pages/SettingsPage";
 import TenantManagement from "./pages/TenantManagement";
 import UserManagement from "./pages/UserManagement";
 import BotMonitoring from "./pages/BotMonitoring";
+import LiveMonitoring from "./pages/LiveMonitoring";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/analytics" element={<Index />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/bot-monitoring" element={<BotMonitoring />} />
+          <Route path="/live-monitoring" element={<LiveMonitoring />} />
           <Route path="/tenant-management" element={<TenantManagement />} />
           <Route path="/user-management" element={<UserManagement />} />
           <Route path="/calendar" element={<CalendarPage />} />
