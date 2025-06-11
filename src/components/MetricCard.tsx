@@ -20,20 +20,20 @@ export function MetricCard({ title, value, change, changeType, icon: Icon, child
   }[changeType]
 
   return (
-    <Card className="gradient-card border-border/50 hover:border-primary/20 transition-all duration-300 group">
-      <CardHeader className="pb-2">
+    <Card className="bg-card border-border hover:shadow-lg transition-all duration-300 group">
+      <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 transition-colors">
-              <Icon className="w-4 h-4 text-primary" />
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+              <Icon className="w-5 h-5 text-primary" />
             </div>
-            <span className="text-sm font-medium text-muted-foreground">{title}</span>
+            <span className="text-sm font-medium text-muted-foreground uppercase tracking-wide">{title}</span>
           </div>
-          <span className={`text-xs font-medium ${changeColor}`}>{change}</span>
+          <span className={`text-sm font-semibold ${changeColor}`}>{change}</span>
         </div>
       </CardHeader>
-      <CardContent>
-        <div className="text-2xl font-bold mb-2">{value}</div>
+      <CardContent className="pt-0">
+        <div className="text-3xl font-bold mb-2 text-foreground">{value}</div>
         {children}
       </CardContent>
     </Card>

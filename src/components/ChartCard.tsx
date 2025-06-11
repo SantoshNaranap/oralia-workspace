@@ -10,11 +10,11 @@ interface ChartCardProps {
 
 export function ChartCard({ title, children, className = "" }: ChartCardProps) {
   return (
-    <Card className={`gradient-card border-border/50 hover:border-primary/20 transition-all duration-300 ${className}`}>
-      <CardHeader>
-        <CardTitle className="text-lg font-semibold">{title}</CardTitle>
+    <Card className={`bg-card border-border hover:shadow-lg transition-all duration-300 ${className}`}>
+      <CardHeader className="pb-4">
+        <CardTitle className="text-xl font-semibold text-foreground">{title}</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-0">
         {children}
       </CardContent>
     </Card>
