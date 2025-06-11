@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import Reports from "./pages/Reports";
 import CalendarPage from "./pages/CalendarPage";
 import SettingsPage from "./pages/SettingsPage";
+import TenantManagement from "./pages/TenantManagement";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
