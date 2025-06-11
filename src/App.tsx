@@ -12,6 +12,7 @@ import TenantManagement from "./pages/TenantManagement";
 import UserManagement from "./pages/UserManagement";
 import BotMonitoring from "./pages/BotMonitoring";
 import LiveMonitoring from "./pages/LiveMonitoring";
+import Finances from "./pages/Finances";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/reports" element={<Reports />} />
           <Route path="/bot-monitoring" element={<BotMonitoring />} />
           <Route path="/live-monitoring" element={<LiveMonitoring />} />
+          <Route path="/finances" element={<Finances />} />
           <Route path="/tenant-management" element={<TenantManagement />} />
           <Route path="/user-management" element={<UserManagement />} />
           <Route path="/calendar" element={<CalendarPage />} />
