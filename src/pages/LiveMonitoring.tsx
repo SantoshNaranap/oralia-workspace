@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react'
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/AppSidebar'
@@ -144,8 +143,8 @@ export default function LiveMonitoring() {
     <SidebarProvider>
       <div className={`min-h-screen flex w-full ${isFullScreen ? 'fixed inset-0 z-50 bg-background' : ''}`}>
         {!isFullScreen && <AppSidebar />}
-        <SidebarInset className="flex-1">
-          <div className="flex flex-col h-full">
+        <SidebarInset className="flex-1 min-w-0">
+          <div className="flex flex-col h-screen">
             <LiveMonitoringHeader
               isAutoRefresh={isAutoRefresh}
               onAutoRefreshChange={setIsAutoRefresh}
@@ -157,10 +156,10 @@ export default function LiveMonitoring() {
               onFullScreenChange={setIsFullScreen}
             />
             
-            <div className="flex-1 p-6 space-y-6 overflow-auto">
+            <div className="flex-1 p-6 space-y-6 overflow-auto min-w-0">
               <RealTimeMetrics metrics={metrics} />
               
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 min-w-0">
                 <LiveActivityFeed activities={activities} />
                 <ServiceStatusGrid services={mockServices} />
               </div>
