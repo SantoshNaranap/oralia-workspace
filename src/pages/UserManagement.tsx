@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react'
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/AppSidebar'
@@ -119,12 +118,10 @@ export default function UserManagement() {
               </div>
             </div>
 
-            {selectedUser && (
-              <UserQuickView
-                user={selectedUser}
-                onClose={() => setSelectedUser(null)}
-              />
-            )}
+            <UserQuickView
+              user={selectedUser}
+              onClose={() => setSelectedUser(null)}
+            />
           </div>
         </SidebarInset>
       </div>

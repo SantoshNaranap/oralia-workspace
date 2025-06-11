@@ -4,8 +4,13 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { 
-  X, 
   Shield, 
   ShieldOff, 
   MapPin, 
@@ -20,11 +25,13 @@ import {
 import { User } from '@/pages/UserManagement'
 
 interface UserQuickViewProps {
-  user: User
+  user: User | null
   onClose: () => void
 }
 
 export function UserQuickView({ user, onClose }: UserQuickViewProps) {
+  if (!user) return null
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Active':
@@ -59,14 +66,11 @@ export function UserQuickView({ user, onClose }: UserQuickViewProps) {
   }
 
   return (
-    <div className="w-96 bg-card border-l border-border h-full overflow-auto">
-      <div className="p-6">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-semibold">User Details</h2>
-          <Button variant="ghost" size="sm" onClick={onClose}>
-            <X className="w-4 h-4" />
-          </Button>
-        </div>
+    <Dialog open={!!user} onOpenChange={() => onClose()}>
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-auto">
+        <DialogHeader>
+          <DialogTitle>User Details</DialogTitle>
+        </DialogHeader>
 
         <div className="space-y-6">
           {/* User Info */}
@@ -95,64 +99,64 @@ export function UserQuickView({ user, onClose }: UserQuickViewProps) {
 
           <Separator />
 
-          {/* Quick Actions */}
-          <div className="space-y-2">
-            <h4 className="text-sm font-medium text-muted-foreground">Quick Actions</h4>
-            <div className="grid grid-cols-2 gap-2">
-              <Button variant="outline" size="sm">
-                <Eye className="w-4 h-4 mr-2" />
-                Impersonate
-              </Button>
-              <Button variant="outline" size="sm">
-                <Key className="w-4 h-4 mr-2" />
-                Reset Password
-              </Button>
-              <Button variant="outline" size="sm">
-                <Shield className="w-4 h-4 mr-2" />
-                Toggle 2FA
-              </Button>
-              <Button variant="outline" size="sm">
-                <UserX className="w-4 h-4 mr-2" />
-                Suspend
-              </Button>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Quick Actions */}
+            <div className="space-y-3">
+              <h4 className="text-sm font-medium text-muted-foreground">Quick Actions</h4>
+              <div className="grid grid-cols-2 gap-2">
+                <Button variant="outline" size="sm">
+                  <Eye className="w-4 h-4 mr-2" />
+                  Impersonate
+                </Button>
+                <Button variant="outline" size="sm">
+                  <Key className="w-4 h-4 mr-2" />
+                  Reset Password
+                </Button>
+                <Button variant="outline" size="sm">
+                  <Shield className="w-4 h-4 mr-2" />
+                  Toggle 2FA
+                </Button>
+                <Button variant="outline" size="sm">
+                  <UserX className="w-4 h-4 mr-2" />
+                  Suspend
+                </Button>
+              </div>
             </div>
-          </div>
 
-          <Separator />
-
-          {/* Security Info */}
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm">Security</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-sm">2FA Status</span>
-                <div className="flex items-center gap-2">
-                  {user.mfaEnabled ? (
-                    <Shield className="w-4 h-4 text-green-500" />
-                  ) : (
-                    <ShieldOff className="w-4 h-4 text-red-500" />
-                  )}
-                  <span className="text-sm">
-                    {user.mfaEnabled ? 'Enabled' : 'Disabled'}
-                  </span>
-                </div>
-              </div>
-              
-              <div className="flex items-center justify-between">
-                <span className="text-sm">Login Count</span>
-                <span className="text-sm font-medium">{user.loginCount}</span>
-              </div>
-
-              {user.ipAddress && (
+            {/* Security Info */}
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm">Security</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm">Last IP</span>
-                  <span className="text-sm font-mono">{user.ipAddress}</span>
+                  <span className="text-sm">2FA Status</span>
+                  <div className="flex items-center gap-2">
+                    {user.mfaEnabled ? (
+                      <Shield className="w-4 h-4 text-green-500" />
+                    ) : (
+                      <ShieldOff className="w-4 h-4 text-red-500" />
+                    )}
+                    <span className="text-sm">
+                      {user.mfaEnabled ? 'Enabled' : 'Disabled'}
+                    </span>
+                  </div>
                 </div>
-              )}
-            </CardContent>
-          </Card>
+                
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Login Count</span>
+                  <span className="text-sm font-medium">{user.loginCount}</span>
+                </div>
+
+                {user.ipAddress && (
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Last IP</span>
+                    <span className="text-sm font-mono">{user.ipAddress}</span>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
 
           {/* Activity */}
           <Card>
@@ -242,7 +246,7 @@ export function UserQuickView({ user, onClose }: UserQuickViewProps) {
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   )
 }
