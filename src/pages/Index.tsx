@@ -51,9 +51,9 @@ const Index = () => {
         <div className="flex-1 flex flex-col">
           <DashboardHeader />
           
-          <main className="flex-1 p-6 animate-fade-in">
-            {/* Key Metrics Section */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <main className="flex-1 p-4 animate-fade-in">
+            {/* Key Metrics Section - Reduced margin */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
               <MetricCard
                 title="TOTAL TENANTS"
                 value="1,247"
@@ -93,53 +93,56 @@ const Index = () => {
               />
             </div>
 
-            {/* Activity Overview & Status Distribution */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-              <div className="lg:col-span-2">
-                <ChartCard title="Platform Activity Trend">
-                  <ResponsiveContainer width="100%" height={300}>
-                    <LineChart data={activityData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                      <XAxis dataKey="time" stroke="#9CA3AF" />
-                      <YAxis stroke="#9CA3AF" />
-                      <Line 
-                        type="monotone" 
-                        dataKey="conversations" 
-                        stroke="#8b5cf6" 
-                        strokeWidth={3}
-                        dot={{ fill: '#8b5cf6', strokeWidth: 2, r: 4 }}
-                        name="Conversations"
-                      />
-                      <Line 
-                        type="monotone" 
-                        dataKey="messages" 
-                        stroke="#10b981" 
-                        strokeWidth={3}
-                        dot={{ fill: '#10b981', strokeWidth: 2, r: 4 }}
-                        name="Messages"
-                      />
-                      <Line 
-                        type="monotone" 
-                        dataKey="activeUsers" 
-                        stroke="#f59e0b" 
-                        strokeWidth={3}
-                        dot={{ fill: '#f59e0b', strokeWidth: 2, r: 4 }}
-                        name="Active Users"
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </ChartCard>
-              </div>
+            {/* Top Section: Activity Chart + Top Performing Tenants */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+              <ChartCard title="Platform Activity Trend">
+                <ResponsiveContainer width="100%" height={250}>
+                  <LineChart data={activityData}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+                    <XAxis dataKey="time" stroke="#9CA3AF" />
+                    <YAxis stroke="#9CA3AF" />
+                    <Line 
+                      type="monotone" 
+                      dataKey="conversations" 
+                      stroke="#8b5cf6" 
+                      strokeWidth={2}
+                      dot={{ fill: '#8b5cf6', strokeWidth: 2, r: 3 }}
+                      name="Conversations"
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="messages" 
+                      stroke="#10b981" 
+                      strokeWidth={2}
+                      dot={{ fill: '#10b981', strokeWidth: 2, r: 3 }}
+                      name="Messages"
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="activeUsers" 
+                      stroke="#f59e0b" 
+                      strokeWidth={2}
+                      dot={{ fill: '#f59e0b', strokeWidth: 2, r: 3 }}
+                      name="Active Users"
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </ChartCard>
 
+              <StatusTable />
+            </div>
+
+            {/* Bottom Section: System Health + Actions + Alerts + Resources */}
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
               <ChartCard title="System Health Status">
-                <ResponsiveContainer width="100%" height={300}>
+                <ResponsiveContainer width="100%" height={200}>
                   <PieChart>
                     <Pie
                       data={statusData}
                       cx="50%"
                       cy="50%"
-                      innerRadius={60}
-                      outerRadius={100}
+                      innerRadius={40}
+                      outerRadius={80}
                       dataKey="value"
                       label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                     >
@@ -150,14 +153,10 @@ const Index = () => {
                   </PieChart>
                 </ResponsiveContainer>
               </ChartCard>
-            </div>
-
-            {/* Bottom Grid (2x2) */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <StatusTable />
+              
+              <QuickActions />
               <AlertsFeed />
               <ResourceCharts />
-              <QuickActions />
             </div>
           </main>
         </div>
