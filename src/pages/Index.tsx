@@ -51,9 +51,9 @@ const Index = () => {
         <div className="flex-1 flex flex-col">
           <DashboardHeader />
           
-          <main className="flex-1 p-2 sm:p-4 animate-fade-in">
-            {/* Key Metrics Section - Single row for mobile */}
-            <div className="grid grid-cols-4 lg:grid-cols-4 gap-1 sm:gap-4 mb-3 sm:mb-4">
+          <main className="flex-1 p-1 sm:p-4 animate-fade-in">
+            {/* Key Metrics Section - Ultra compact for mobile */}
+            <div className="grid grid-cols-4 lg:grid-cols-4 gap-1 sm:gap-4 mb-2 sm:mb-4">
               <MetricCard
                 title="TOTAL TENANTS"
                 value="1,247"
@@ -93,10 +93,10 @@ const Index = () => {
               />
             </div>
 
-            {/* Top Section: Activity Chart + Top Performing Tenants - Optimized for mobile */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 sm:gap-4 mb-3 sm:mb-4">
+            {/* Top Section: Activity Chart + Top Performing Tenants - Compressed for mobile */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-1 sm:gap-4 mb-2 sm:mb-4">
               <ChartCard title="Platform Activity Trend">
-                <ResponsiveContainer width="100%" height={200} className="sm:h-[250px]">
+                <ResponsiveContainer width="100%" height={160} className="sm:h-[250px]">
                   <LineChart data={activityData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
                     <XAxis dataKey="time" stroke="#9CA3AF" />
@@ -132,17 +132,17 @@ const Index = () => {
               <StatusTable />
             </div>
 
-            {/* Bottom Section: System Health + Actions + Alerts + Resources - Adjusted for mobile */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
+            {/* Bottom Section: System Health + Actions + Alerts + Resources - Ultra compressed for mobile */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-1 sm:gap-4">
               <ChartCard title="System Health Status">
-                <ResponsiveContainer width="100%" height={150} className="sm:h-[200px]">
+                <ResponsiveContainer width="100%" height={120} className="sm:h-[200px]">
                   <PieChart>
                     <Pie
                       data={statusData}
                       cx="50%"
                       cy="50%"
-                      innerRadius={30}
-                      outerRadius={60}
+                      innerRadius={20}
+                      outerRadius={50}
                       dataKey="value"
                       label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                       className="sm:inner-radius-[40] sm:outer-radius-[80]"
