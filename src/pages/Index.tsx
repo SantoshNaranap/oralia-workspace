@@ -52,8 +52,8 @@ const Index = () => {
           <DashboardHeader />
           
           <main className="flex-1 p-2 sm:p-4 animate-fade-in">
-            {/* Key Metrics Section - Further reduced spacing for mobile */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 mb-3 sm:mb-4">
+            {/* Key Metrics Section - Single row for mobile */}
+            <div className="grid grid-cols-4 lg:grid-cols-4 gap-1 sm:gap-4 mb-3 sm:mb-4">
               <MetricCard
                 title="TOTAL TENANTS"
                 value="1,247"
