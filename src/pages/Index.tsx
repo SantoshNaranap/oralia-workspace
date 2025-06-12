@@ -45,17 +45,17 @@ const statusData = [
 const Index = () => {
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-background">
+      <div className="min-h-screen flex w-full bg-background overflow-x-hidden">
         <AppSidebar />
         
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col min-w-0">
           <DashboardHeader />
           
-          <main className="flex-1 p-1 sm:p-4 animate-fade-in">
-            {/* Key Metrics Section - Ultra compact for mobile */}
-            <div className="grid grid-cols-4 lg:grid-cols-4 gap-1 sm:gap-4 mb-2 sm:mb-4">
+          <main className="flex-1 p-0.5 sm:p-4 animate-fade-in overflow-x-hidden">
+            {/* Key Metrics Section - Ultra compact for mobile with no gaps */}
+            <div className="grid grid-cols-4 lg:grid-cols-4 gap-0.5 sm:gap-4 mb-1 sm:mb-4">
               <MetricCard
-                title="TOTAL TENANTS"
+                title="TENANTS"
                 value="1,247"
                 change="+12.5%"
                 changeType="positive"
@@ -65,7 +65,7 @@ const Index = () => {
               </MetricCard>
               
               <MetricCard
-                title="TOTAL BOTS DEPLOYED"
+                title="BOTS"
                 value="3,892"
                 change="+8.2%"
                 changeType="positive"
@@ -75,7 +75,7 @@ const Index = () => {
               </MetricCard>
               
               <MetricCard
-                title="ACTIVE CONVERSATIONS"
+                title="ACTIVE"
                 value="15,234"
                 change="+2.1%"
                 changeType="positive"
@@ -85,44 +85,44 @@ const Index = () => {
               </MetricCard>
               
               <MetricCard
-                title="PLATFORM REVENUE"
-                value="$127,849 MRR"
+                title="REVENUE"
+                value="$127,849"
                 change="+18.3%"
                 changeType="positive"
                 icon={DollarSign}
               />
             </div>
 
-            {/* Top Section: Activity Chart + Top Performing Tenants - Compressed for mobile */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-1 sm:gap-4 mb-2 sm:mb-4">
-              <ChartCard title="Platform Activity Trend">
-                <ResponsiveContainer width="100%" height={160} className="sm:h-[250px]">
+            {/* Top Section: Activity Chart + Top Performing Tenants - Minimal gaps for mobile */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-0.5 sm:gap-4 mb-1 sm:mb-4">
+              <ChartCard title="Platform Activity">
+                <ResponsiveContainer width="100%" height={120} className="sm:h-[250px]">
                   <LineChart data={activityData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                    <XAxis dataKey="time" stroke="#9CA3AF" />
-                    <YAxis stroke="#9CA3AF" />
+                    <XAxis dataKey="time" stroke="#9CA3AF" fontSize={10} />
+                    <YAxis stroke="#9CA3AF" fontSize={10} />
                     <Line 
                       type="monotone" 
                       dataKey="conversations" 
                       stroke="#8b5cf6" 
-                      strokeWidth={2}
-                      dot={{ fill: '#8b5cf6', strokeWidth: 2, r: 3 }}
+                      strokeWidth={1.5}
+                      dot={false}
                       name="Conversations"
                     />
                     <Line 
                       type="monotone" 
                       dataKey="messages" 
                       stroke="#10b981" 
-                      strokeWidth={2}
-                      dot={{ fill: '#10b981', strokeWidth: 2, r: 3 }}
+                      strokeWidth={1.5}
+                      dot={false}
                       name="Messages"
                     />
                     <Line 
                       type="monotone" 
                       dataKey="activeUsers" 
                       stroke="#f59e0b" 
-                      strokeWidth={2}
-                      dot={{ fill: '#f59e0b', strokeWidth: 2, r: 3 }}
+                      strokeWidth={1.5}
+                      dot={false}
                       name="Active Users"
                     />
                   </LineChart>
@@ -132,19 +132,18 @@ const Index = () => {
               <StatusTable />
             </div>
 
-            {/* Bottom Section: System Health + Actions + Alerts + Resources - Ultra compressed for mobile */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-1 sm:gap-4">
-              <ChartCard title="System Health Status">
-                <ResponsiveContainer width="100%" height={120} className="sm:h-[200px]">
+            {/* Bottom Section: System Health + Actions + Alerts + Resources - Ultra compressed */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-0.5 sm:gap-4">
+              <ChartCard title="System Health">
+                <ResponsiveContainer width="100%" height={100} className="sm:h-[200px]">
                   <PieChart>
                     <Pie
                       data={statusData}
                       cx="50%"
                       cy="50%"
-                      innerRadius={20}
-                      outerRadius={50}
+                      innerRadius={15}
+                      outerRadius={40}
                       dataKey="value"
-                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                       className="sm:inner-radius-[40] sm:outer-radius-[80]"
                     >
                       {statusData.map((entry, index) => (
