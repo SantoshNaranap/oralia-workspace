@@ -51,9 +51,9 @@ const Index = () => {
         <div className="flex-1 flex flex-col">
           <DashboardHeader />
           
-          <main className="flex-1 p-4 animate-fade-in">
-            {/* Key Metrics Section - Reduced margin */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <main className="flex-1 p-2 sm:p-4 animate-fade-in">
+            {/* Key Metrics Section - Further reduced spacing for mobile */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 mb-3 sm:mb-4">
               <MetricCard
                 title="TOTAL TENANTS"
                 value="1,247"
@@ -93,10 +93,10 @@ const Index = () => {
               />
             </div>
 
-            {/* Top Section: Activity Chart + Top Performing Tenants */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+            {/* Top Section: Activity Chart + Top Performing Tenants - Optimized for mobile */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 sm:gap-4 mb-3 sm:mb-4">
               <ChartCard title="Platform Activity Trend">
-                <ResponsiveContainer width="100%" height={250}>
+                <ResponsiveContainer width="100%" height={200} className="sm:h-[250px]">
                   <LineChart data={activityData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
                     <XAxis dataKey="time" stroke="#9CA3AF" />
@@ -132,19 +132,20 @@ const Index = () => {
               <StatusTable />
             </div>
 
-            {/* Bottom Section: System Health + Actions + Alerts + Resources */}
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+            {/* Bottom Section: System Health + Actions + Alerts + Resources - Adjusted for mobile */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
               <ChartCard title="System Health Status">
-                <ResponsiveContainer width="100%" height={200}>
+                <ResponsiveContainer width="100%" height={150} className="sm:h-[200px]">
                   <PieChart>
                     <Pie
                       data={statusData}
                       cx="50%"
                       cy="50%"
-                      innerRadius={40}
-                      outerRadius={80}
+                      innerRadius={30}
+                      outerRadius={60}
                       dataKey="value"
                       label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                      className="sm:inner-radius-[40] sm:outer-radius-[80]"
                     >
                       {statusData.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={entry.color} />
