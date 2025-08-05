@@ -29,7 +29,7 @@ const mockUsers: User[] = [
   {
     id: '1',
     name: 'John Admin',
-    email: 'john@oralia.com',
+    email: 'john@kaaylabs.com',
     category: 'workspace',
     role: 'Super Admin',
     status: 'Active',

@@ -48,7 +48,7 @@ export function AppSidebar() {
           </div>
           {!isCollapsed && (
             <div>
-              <h2 className="font-semibold text-lg text-foreground">Oralia</h2>
+              <h2 className="font-semibold text-lg text-foreground">Kaaylabs</h2>
               <p className="text-xs text-muted-foreground">AI Platform</p>
             </div>
           )}
